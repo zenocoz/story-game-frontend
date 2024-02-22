@@ -45,4 +45,22 @@ export const api = {
 			console.log(err);
 		}
 	},
+	getStories: async () => {
+		const config = {
+			headers: {
+				"Access-Control-Allow-Origin": "*",
+			},
+		};
+		try {
+			const response = await axios.get("http://localhost:8080/stories", config);
+			if (response.statusText === "OK") {
+				console.log("response", response);
+				return response.data;
+			} else {
+				console.log("something wrong in getting the stories");
+			}
+		} catch (err) {
+			console.log(err);
+		}
+	},
 };

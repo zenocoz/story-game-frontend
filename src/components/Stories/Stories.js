@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
+import { useSelector, useDispatch } from "react-redux";
 import "./Stories.css";
 import Story from "../Story/Story";
+import { getStories } from "../../store/story/reducer";
 
 // import PlaylistsContainer from "../../components/playlists/PlaylistsContainer/PlaylistsContainer";
 // import SearchResults from "../../components/shared/SearchResults/SearchResults";
@@ -16,9 +18,10 @@ import { UserContext as Context } from "../../context";
 import StoryModal from "../StoryModal/StoryModal";
 
 const Stories = () => {
-	// const selectedPlaylist = 1;
-
 	const navigate = useNavigate();
+	//redux
+	const { stories } = useSelector((state) => state.story);
+	const dispatch = useDispatch();
 
 	const [edited, setEdited] = useState(false);
 
@@ -26,6 +29,10 @@ const Stories = () => {
 
 	const { nicknameContext } = useContext(Context);
 	const { nickname } = nicknameContext;
+
+	useEffect(() => {
+		dispatch(getStories());
+	}, []);
 
 	const editedPlaylist = (ed) => {
 		setEdited(ed);
