@@ -1,0 +1,13 @@
+.items {
+	color: #ffff;
+}
+
+.user {
+	color: white;
+}
+
+.navbar-items button {
+	border-radius: 5px;
+	border: none;
+	background-color: #808080;
+}

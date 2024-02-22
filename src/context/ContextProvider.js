@@ -4,16 +4,22 @@ import { UserContext } from ".";
 const ContextProvider = ({ children }) => {
 	//STATE
 
-	const [player, setPlayer] = useState(null);
+	const [playerId, setPlayerId] = useState(null);
+	const [nickname, setNickname] = useState("");
 	// const [headers, setHeaders] = useState(null);
 	// const [stripeLangs, setStripeLangs] = useState({});
 	// const [checkedIfActivePlaylists, setCheckedIfActivePlaylists] = useState([]);
 
 	//CONTEXTS
 
-	const playerContext = useMemo(
-		() => ({ player, setPlayer }),
-		[player, setPlayer]
+	const playerIdContext = useMemo(
+		() => ({ playerId, setPlayerId }),
+		[playerId, setPlayerId]
+	);
+
+	const nicknameContext = useMemo(
+		() => ({ nickname, setNickname }),
+		[nickname, setNickname]
 	);
 
 	// const headersContext = useMemo(
@@ -31,7 +37,8 @@ const ContextProvider = ({ children }) => {
 	// );
 
 	const context = {
-		playerContext,
+		playerIdContext,
+		nicknameContext,
 	};
 	return (
 		<UserContext.Provider value={context}>{children}</UserContext.Provider>

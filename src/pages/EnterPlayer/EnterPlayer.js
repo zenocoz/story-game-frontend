@@ -11,12 +11,11 @@ const EnterPlayer = () => {
 	// const [msg, setMsg] = useState("");
 
 	// const [err, setErr] = useState(null);
-	const [nickname, setNickname] = useState("");
-
 	//context
 
-	const { playerContext } = useContext(Context);
-	const { player, setPlayer } = playerContext;
+	const { playerIdContext, nicknameContext } = useContext(Context);
+	const { setPlayerId } = playerIdContext;
+	const { nickname, setNickname } = nicknameContext;
 
 	const navigate = useNavigate();
 
@@ -33,8 +32,8 @@ const EnterPlayer = () => {
 				config
 			);
 			if (response.status === 201) {
-				console.log(`new player created`);
-				setPlayer(nickname);
+				console.log(`new player created`, response);
+				setPlayerId(response.data.newPlayerId);
 
 				navigate("/stories");
 			} else {
@@ -52,43 +51,6 @@ const EnterPlayer = () => {
 			addPlayer(e);
 		}
 	};
-
-	// const handleSubmit = async (e) => {
-	// 	e.preventDefault();
-
-	// 	try {
-	// 		const response = await addPlayer(nickname);
-	// 		console.log(response);
-	// 	} catch (error) {
-	// 		const errorCode = error.code;
-	// 		const errorMessage = error.message;
-	// 		// setErr(error);
-	// 		console.log(errorCode);
-	// 		console.log(errorMessage);
-	// 	}
-	// };
-
-	// useEffect(() => {
-	// 	if (err) {
-	// 		console.log("err", err.code);
-	// 		if (err.code === "auth/invalid-email") {
-	// 			setMsg("WRONG OR MISSING EMAIL");
-	// 		}
-	// 		if (err.code === "auth/wrong-password") {
-	// 			setMsg("WRONG PASSWORD");
-	// 		}
-	// 		if (err.code === "auth/user-not-found") {
-	// 			setMsg("USER NOT FOUND");
-	// 		}
-	// 		if (err.code === "auth/internal-err") {
-	// 			setMsg("ENTER PASSWORD");
-	// 		}
-	// 	}
-
-	// 	if (user) {
-	// 		navigate("/choose");
-	// 	}
-	// }, [user, err]);
 
 	return (
 		<div className="login">
