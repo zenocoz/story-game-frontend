@@ -6,9 +6,6 @@ const ContextProvider = ({ children }) => {
 
 	const [playerId, setPlayerId] = useState(null);
 	const [nickname, setNickname] = useState("");
-	// const [headers, setHeaders] = useState(null);
-	// const [stripeLangs, setStripeLangs] = useState({});
-	// const [checkedIfActivePlaylists, setCheckedIfActivePlaylists] = useState([]);
 
 	//CONTEXTS
 
@@ -21,20 +18,6 @@ const ContextProvider = ({ children }) => {
 		() => ({ nickname, setNickname }),
 		[nickname, setNickname]
 	);
-
-	// const headersContext = useMemo(
-	// 	() => ({ headers, setHeaders }),
-	// 	[headers, setHeaders]
-	// );
-	// const stripeLangsContext = useMemo(
-	// 	() => ({ stripeLangs, setStripeLangs }),
-	// 	[stripeLangs, setStripeLangs]
-	// );
-
-	// const activePlaylistsContext = useMemo(
-	// 	() => ({ checkedIfActivePlaylists, setCheckedIfActivePlaylists }),
-	// 	[checkedIfActivePlaylists, setCheckedIfActivePlaylists]
-	// );
 
 	const context = {
 		playerIdContext,

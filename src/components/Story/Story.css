@@ -10,3 +10,20 @@
 	cursor: pointer;
 	border-radius: 20px;
 }
+.pill-pl-nickname {
+	background-color: blue;
+	border: 2px solid black;
+	color: black;
+	padding: 2px 4px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	margin: 1px 1px;
+	cursor: pointer;
+	border-radius: 20px;
+}
+
+.sentence {
+	min-height: 3rem;
+	min-width: 2rem;
+}

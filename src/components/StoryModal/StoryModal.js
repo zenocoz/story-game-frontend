@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useContext } from "react";
-// import { useDispatch, useSelector } from "react-redux";
+import React, { useState, useContext } from "react";
+import { useDispatch } from "react-redux";
 import { api } from "../../api";
-import { Button, Modal, Form, Dropdown } from "react-bootstrap";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSave, faRotateLeft } from "@fortawesome/free-solid-svg-icons";
+import { Button, Modal, Form } from "react-bootstrap";
+import { getStories } from "../../store/story/reducer";
+
 //context
 import { UserContext as Context } from "../../context";
 
@@ -17,14 +17,16 @@ const StoryModal = () => {
 	const [sentenceInput, setSentenceInput] = useState("");
 
 	const [topic, setTopic] = useState("");
-	const [numberOfSentences, setNumberOfSentences] = useState(1);
+	const [numberOfSentences, setNumberOfSentences] = useState(10);
 
-	const [showSaveTitle, setShowSaveTitle] = useState(false);
 	const [show, setShow] = useState(false);
+
+	const dispatch = useDispatch();
 
 	const handleClose = () => {
 		setShow(false);
 		setTitle("");
+		dispatch(getStories());
 	};
 	const handleShow = async () => {
 		setShow(true);
@@ -39,12 +41,15 @@ const StoryModal = () => {
 	};
 
 	const handleSubmit = async () => {
-		await api.addStory(
+		const response = await api.addStory(
 			title,
 			numberOfSentences,
-			{ contributor: playerId, sentence: sentenceInput },
+			{ contributor: playerId, nickname, sentence: sentenceInput },
 			topic
 		);
+		if (response) {
+			handleClose();
+		}
 	};
 
 	const renderFormInput = () => {
@@ -61,12 +66,9 @@ const StoryModal = () => {
 						<Form.Control
 							type="text"
 							value={title}
-							onBlur={() => {
-								// updateLangTitle();
-								// checkStringThenUpdateLangTitle(title);
-							}}
+							// onBlur={() => {
+							// }}
 							onChange={(e) => {
-								// setShowSaveTitle(true);
 								handleTitleChange(e);
 							}}
 							placeholder="enter a name for the story"
@@ -76,7 +78,6 @@ const StoryModal = () => {
 							aria-label="With textarea"
 							value={sentenceInput}
 							onChange={(e) => {
-								// setShowSaveTitle(true);
 								handleSentenceChange(e);
 							}}
 						/>
@@ -91,9 +92,7 @@ const StoryModal = () => {
 			<div className="centered">
 				<Button
 					// style={{ backgroundColor: "blue" }}
-
 					onClick={() => {
-						// navigate("/stripes");
 						handleShow();
 					}}
 				>
@@ -105,11 +104,7 @@ const StoryModal = () => {
 				<Modal.Header closeButton>
 					<Modal.Title> New Story: id </Modal.Title>
 				</Modal.Header>
-				<Modal.Body>
-					{renderFormInput()}
-					<div className="d-flex">former languages</div>
-					<div className="d-flex">also languages formerly</div>
-				</Modal.Body>
+				<Modal.Body>{renderFormInput()}</Modal.Body>
 				<Modal.Footer>
 					<Button variant="secondary" onClick={handleClose}>
 						Cancel

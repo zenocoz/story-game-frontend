@@ -25,7 +25,6 @@ const NavBar = () => {
 					<Nav className="items justify-content-between">
 						<div className="navbar-items">
 							<h6 className="user">{nickname}</h6>
-
 							<button
 								onClick={() => {
 									logout();

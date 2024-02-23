@@ -36,10 +36,12 @@ export const api = {
 				config
 			);
 			if (response.status === 201) {
-				console.log(`new player created`);
+				console.log(`new story created`);
+				return "ok";
 			} else {
 				console.log(response);
-				console.log("could not add player");
+				console.log("could not add story");
+				return;
 			}
 		} catch (err) {
 			console.log(err);
@@ -54,10 +56,32 @@ export const api = {
 		try {
 			const response = await axios.get("http://localhost:8080/stories", config);
 			if (response.statusText === "OK") {
-				console.log("response", response);
 				return response.data;
 			} else {
 				console.log("something wrong in getting the stories");
+			}
+		} catch (err) {
+			console.log(err);
+		}
+	},
+
+	modifyStory: async (storyId, sentence) => {
+		try {
+			const config = {
+				sentence,
+				headers: { "Content-type": "application/json" },
+			};
+			const response = await axios.put(
+				`http://localhost:8080/stories/${storyId}`,
+				config
+			);
+			if (response.status === 201) {
+				console.log(`story modified`, response);
+				return "ok";
+			} else {
+				console.log(response);
+				console.log("could not modify story");
+				return;
 			}
 		} catch (err) {
 			console.log(err);

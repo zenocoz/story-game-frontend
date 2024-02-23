@@ -1,40 +1,119 @@
-import React from "react";
-import { Card, Button } from "react-bootstrap";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHouse } from "@fortawesome/free-solid-svg-icons";
+import React, { useState, useContext } from "react";
+import { Card, Button, Form } from "react-bootstrap";
 import "./Story.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSave, faRotateLeft } from "@fortawesome/free-solid-svg-icons";
+import { api } from "../../api";
+import { useDispatch } from "react-redux";
+import { getStories } from "../../store/story/reducer";
 
-const Story = () => {
+//context
+import { UserContext as Context } from "../../context";
+
+const Story = (props) => {
+	//context
+	const { playerIdContext, nicknameContext } = useContext(Context);
+	const { playerId } = playerIdContext;
+	const { nickname } = nicknameContext;
+
+	const [edit, setEdit] = useState(false);
+	const [saveString, setSaveString] = useState(false);
+	const [string, setString] = useState("");
+
+	const dispatch = useDispatch();
+
+	const handleStringeEdit = (e) => {
+		setString(e.target.value);
+	};
+
+	const updateStory = async (storyId) => {
+		const updated = await api.modifyStory(storyId, {
+			contributor: playerId,
+			nickname,
+			sentence: string,
+		});
+	};
+
+	const update = () => {
+		dispatch(getStories());
+	};
+
+	const renderFormInput = () => {
+		return (
+			<Form>
+				<Form.Group className="mb-3" controlId="ControlInput1">
+					<div className="d-flex">
+						{saveString && (
+							<FontAwesomeIcon
+								icon={faSave}
+								onClick={() => {
+									updateStory(props.story._id);
+									setEdit(false);
+								}}
+							/>
+						)}
+						<Form.Control
+							type="text"
+							value={string}
+							// onBlur={() => {
+							// }}
+							onChange={(e) => {
+								setSaveString(true);
+								handleStringeEdit(e);
+							}}
+							placeholder="add a new sentence here"
+						/>
+					</div>
+				</Form.Group>
+			</Form>
+		);
+	};
+
 	return (
 		<div>
 			<Card
 				style={{
-					width: "18rem",
+					minWidth: "18rem",
 					backgroundColor: "#808080",
 					marginBottom: "1rem",
-					// opacity: props.playlist.active ? "1" : "0.5",
 				}}
 			>
-				{/* <Card.Img variant="top" src="holder.js/100px180" /> */}
 				<Card.Body>
-					{/* <div className="pill-pl-home">
-						<FontAwesomeIcon icon={faHouse} />
-					</div> */}
+					<div className="pill-pl-home">
+						{props.story.sentences.length < props.story.numberOfSentences
+							? "ACTIVE"
+							: "COMPLETED"}
+					</div>
 
-					<Card.Title>Title</Card.Title>
+					<Card.Title>{props.story.title}</Card.Title>
 
-					<Card.Text>TEXT SENTENCES</Card.Text>
-					<Card.Text>nunber of sentences</Card.Text>
+					<div className="d-flex">
+						{props.story.sentences.map((sent) => {
+							return (
+								<div className="sentence">
+									<Card.Text>{sent.sentence} </Card.Text>
+									<div className="pill-pl-nickname">{sent.nickname}</div>
+								</div>
+							);
+						})}
+					</div>
+					{edit && renderFormInput()}
+					<Card.Text>Max Sentences {props.story.numberOfSentences}</Card.Text>
 
 					<Button
 						variant="primary"
 						onClick={() => {
-							// editPlayList(props.playlist.idSongCollection);
-							// props.editedPlaylist(false);
+							setEdit(true);
 						}}
 					>
 						Edit
 					</Button>
+					<FontAwesomeIcon
+						icon={faRotateLeft}
+						onClick={() => {
+							update();
+						}}
+					/>
 				</Card.Body>
 			</Card>
 		</div>

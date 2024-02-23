@@ -1,16 +1,12 @@
-import React, { useEffect, useState, useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { api } from "../../api";
 import "./EnterPlayer.css";
 
 //context
 import { UserContext as Context } from "../../context";
 
 const EnterPlayer = () => {
-	// const [msg, setMsg] = useState("");
-
-	// const [err, setErr] = useState(null);
 	//context
 
 	const { playerIdContext, nicknameContext } = useContext(Context);
@@ -21,7 +17,6 @@ const EnterPlayer = () => {
 
 	const addPlayer = async (e) => {
 		e.preventDefault();
-		// await api.addPlayer(nickname);
 		try {
 			const config = {
 				nickname,
@@ -73,14 +68,6 @@ const EnterPlayer = () => {
 						Start Playing
 					</button>
 				</form>
-
-				{/* <div>
-          <Link to="/reset">Forgot Password</Link>
-        </div> */}
-				{/* <div>
-          Don't have an account? <Link to="/register">Register</Link> now.
-        </div> */}
-				{/* <div className="login__error-msg">{msg && msg}</div> */}
 			</div>
 		</div>
 	);
